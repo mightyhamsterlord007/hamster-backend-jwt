@@ -80,49 +80,63 @@ module.exports = {
 
 		},
 		checkSignIn: (req, res, next) => {
+			const email = req.body.email;
+			User.findOne({email})
+				.then(user => {
 
-			bcrypt
-			.compare(req.body.password, user.password)
-			.then(isMatch => {
-
-				if (isMatch) {
-
-					const payload = {
-						username: user.username,
-						id: user._id,
-						email: user.email
-					}
-
-					
-					jwt.sign(payload, process.env.SECRET_KEY, {
-						expiresIn: 3600
-					}, (err, token) => {
-
-						if (err) {
-							const errors = {};
-							errors.status = 400;
-							errors.message = err;
+					bcrypt
+					.compare(req.body.password, user.password)
+					.then(isMatch => {
+		
+						if (isMatch) {
+		
+							const payload = {
+								username: user.username,
+								id: user._id,
+								email: user.email
+							}
+		
 							
-							res.json(errors);
+							jwt.sign(payload, process.env.SECRET_KEY, {
+								expiresIn: 3600
+							}, (err, token) => {
+		
+								if (err) {
+									const errors = {};
+									errors.status = 400;
+									errors.message = err;
+									
+									res.json(errors);
+								} else {
+									let success = {};
+									success.confirmation = true;
+									success.token = `Bearer ${token}`;
+									res.json(success);
+								}
+		
+							});
+		
+		
 						} else {
-							let success = {};
-							success.confirmation = true;
-							success.token = `Bearer ${token}`;
-							res.json(success);
+		
+							let errors = {}
+							errors.password = 'Password incorrect';
+							errors.status = 400;
+							res.json(errors);
+		
 						}
+		
+					})
 
-					});
-
-
-				} else {
-
-					let errors = {}
-					errors.password = 'Password incorrect';
+				})
+				.catch(err => {
+					const errors = {};
 					errors.status = 400;
+					errors.message = err;
+					
 					res.json(errors);
+				})
 
-				}
 
-			})
 		}
 }
