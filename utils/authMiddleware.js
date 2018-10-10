@@ -138,5 +138,22 @@ module.exports = {
 				})
 
 
+		},
+		successUser: (req, res) => {
+
+			if (!req.user) {
+				const errors = {};
+				errors.status = 400;
+				res.json(errors);
+			} else {
+				res.json({
+					id: req.user.id,
+					username: req.user.username,
+					email: req.user.email
+				})
+			}
+
+			
+			
 		}
 }

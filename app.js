@@ -24,7 +24,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hjs');
 
 app.use(passport.initialize());
-
 require('./utils/passport')(passport);
 
 app.use(cors());

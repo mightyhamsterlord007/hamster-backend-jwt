@@ -10,11 +10,5 @@ router.get('/', function(req, res, next) {
 
 router.post('/createuserorlogin', authMiddleware.checkSignUp, authMiddleware.checkSignIn);
 
-router.get('/current-user', passport.authenticate('jwt', {session: false}), function(req, res) {
-    console.log(req.user)
-    res.json({
-      id: req.user.id,
-      title: req.user.title
-    })
-  });
+router.get('/current-user', passport.authenticate('jwt', {session: false}), authMiddleware.successUser);
 module.exports = router;
