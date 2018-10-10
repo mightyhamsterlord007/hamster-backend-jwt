@@ -10,7 +10,7 @@ const authObject = {};
 authObject.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 authObject.secretOrKey = keys;
 
-module.exports = passport => {
+module.exports = (passport) => {
 
     passport.use(new JwtStrategy(authObject, (jwt_payload, done) => {
 
