@@ -5,6 +5,23 @@ const jwt = require('jsonwebtoken');
 
 module.exports = {
 
+    findHamsters: (req, res, next) => {
+
+        Hamster.find({})
+        .then(hamsters => {
+            let success = {}
+            success.confirmation = true;
+            success.payload = hamsters;
+
+            res.json(success);
+        })
+        .catch(err => {
+            res.json(err);
+        })
+
+    },
+
+
     find: (params) => {
         return new Promise( (resolve, reject) => {
             Hamster.find(params)

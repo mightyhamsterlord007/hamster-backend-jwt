@@ -6,24 +6,26 @@ var hamsterController = require('../controllers/hamsterController');
 var passport = require('passport');
 
 /* GET users listing. */
-router.get('/getallhamsters', function(req, res, next) {
+// router.get('/getallhamsters', function(req, res, next) {
 
-  hamsterController
-    .find({})
-    .then(hamsters => {
-      res.json({
-        confirmation: 'success',
-        payload: hamsters
-      });
-    })
-    .catch(err => {
-      res.json({
-        confirmation: 'failure',
-        payload: err
-      });
-    })
+//   hamsterController
+//     .find({})
+//     .then(hamsters => {
+//       res.json({
+//         confirmation: 'success',
+//         payload: hamsters
+//       });
+//     })
+//     .catch(err => {
+//       res.json({
+//         confirmation: 'failure',
+//         payload: err
+//       });
+//     })
 
-});
+// });
+
+router.get('/getallhamsters', hamsterController.findHamsters);
 
 router.post('/createhamster', function(req, res, next) {
 
